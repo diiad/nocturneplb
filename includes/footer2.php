@@ -1,0 +1,1 @@
+<footer class="position-footer" style="font-size: 0.5rem">© <?php echo date("Y"); ?> Nocture-PLB</footer>
