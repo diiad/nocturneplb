@@ -96,6 +96,31 @@ if ($check->rowCount() > 0) {
     exit();
 }
 
+$check = $pdo->prepare("SELECT 1 FROM user WHERE phone = ?");
+$check->execute([$phone]);
+
+if ($check->rowCount() > 0) {
+    setcookie("form_nom", $nom, time() + 60, "/");
+    setcookie("form_prenom", $prenom, time() + 60, "/");
+    setcookie("form_phone", $phone, time() + 60, "/");
+    setcookie("form_email", $email, time() + 60, "/");
+    setcookie("form_insta", $instagram, time() + 60, "/");
+    header("Location: ../signup.php?error=Un compte avec ce numéro de téléphone existe déjà.");
+    exit();
+}
+
+$check = $pdo->prepare("SELECT 1 FROM user WHERE instagram = ?");
+$check->execute([$instagram]);
+
+if ($check->rowCount() > 0) {
+    setcookie("form_nom", $nom, time() + 60, "/");
+    setcookie("form_prenom", $prenom, time() + 60, "/");
+    setcookie("form_phone", $phone, time() + 60, "/");
+    setcookie("form_email", $email, time() + 60, "/");
+    setcookie("form_insta", $instagram, time() + 60, "/");
+    header("Location: ../signup.php?error=Un compte avec cet identifiant Instagram existe déjà.");
+    exit();
+}
 
 if (mb_strlen($password, 'UTF-8') < 8 ||
     !preg_match('/[A-Z]/', $password) ||
@@ -117,7 +142,15 @@ $prenom = mb_convert_case($prenom, MB_CASE_TITLE, 'UTF-8');
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $pdo->prepare("INSERT INTO user (nom, prenom, phone, email, password, instagram) VALUES (?, ?, ?, ?, ?, ?)");
-$ok = $stmt->execute([$nom, $prenom, $phone, $email, $hashedPassword, $instagram]);
+try {
+    $ok = $stmt->execute([$nom, $prenom, $phone, $email, $hashedPassword, $instagram]);
+} catch (PDOException $e) {
+    // Doublon inséré entre les vérifications ci-dessus et l'INSERT
+    if ($e->getCode() !== '23000') {
+        throw $e;
+    }
+    $ok = false;
+}
 
 if ($ok) {
     header("Location: ../login.php?success=Inscription réussie, veuillez vous connecter.");
