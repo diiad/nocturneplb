@@ -6,6 +6,7 @@ if(!isset($_SESSION['email'])){
     exit();
 }else{
     header("location: dashboard.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
