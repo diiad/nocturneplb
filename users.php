@@ -41,7 +41,7 @@ if ($saisonId) {
 }
 $stmt = $pdo->prepare("SELECT COUNT(id) AS total_users FROM user");
 $stmt->execute();
-$total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'] + 450;
+$total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
 ?>
 
 
