@@ -2,10 +2,10 @@
 session_start();
 require_once "includes/global.php";
 if(!isset($_SESSION['email'])){
-    header("Location: login.php");
+    header("Location: login");
     exit();
 }else{
-    header("location: dashboard.php");
+    header("location: dashboard");
     exit();
 }
 ?>
@@ -36,10 +36,10 @@ if(!isset($_SESSION['email'])){
 <body>
 <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="index.php"><?= $webname ?></a>
+    <a class="navbar-brand" href="/"><?= $webname ?></a>
     <div>
-      <a class="btn btn-outline-light me-2" href="dashboard.php">Dashboard</a>
-      <a class="btn btn-outline-light" href="traitements/deconnexion.php">Déconnexion</a>
+      <a class="btn btn-outline-light me-2" href="dashboard">Dashboard</a>
+      <a class="btn btn-outline-light" href="traitements/deconnexion">Déconnexion</a>
     </div>
   </div>
 </nav>

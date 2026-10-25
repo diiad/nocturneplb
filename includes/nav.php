@@ -1,8 +1,8 @@
 <nav>
     <ul>
-        <?php if($_SESSION['role'] != 0) { ?>
+        <?php if($_SESSION['role'] == 1) { ?>
         <li>
-            <a href="stats.php">
+            <a href="stats">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24" fill="white">
                     <path d="M18 18H6" stroke="white" stroke-linecap="round"/>
                     <rect x="7" y="12" width="2" height="6" stroke="#000000" stroke-linejoin="round"/>
@@ -15,8 +15,10 @@
                 </svg>
             </a>
         </li>
+        <?php } ?>
+        <?php if($_SESSION['role'] != 0) { ?>
         <li>
-            <a href="users.php">
+            <a href="users">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25" fill="white">
                     <path class="st0" d="M326.32,332.67c24.74,0,44.79,20.05,44.79,44.79l-0.03,24.62c2.99,56.03-38.67,84.38-113.43,84.38
                     c-74.45,0-116.88-27.89-116.88-83.41v-25.59c0-24.74,20.05-44.79,44.79-44.79H326.32z M44.79,204.7l112,0
@@ -34,18 +36,18 @@
         </li>
         <?php } ?>
         <li>
-            <a href="dashboard.php">
+            <a href="dashboard">
                 <img src="img/home-icon-silhouette-svgrepo-com.svg" width="25" height="25">
             </a>
         </li>
         <?php if($_SESSION['role'] != 0){ ?>
-        <li><a href="paiement.php">
+        <li><a href="paiement">
                 <img src="img/reshot-icon-heap-money-XB9FLV365E.svg" width="25" height="25" alt="heap money icon" style="filter: invert(1);">
             </a>
         </li>
         <?php } ?>
         <li>
-            <a href="profil.php">
+            <a href="profil">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="25" height="25" fill="white">
                     <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
                 </svg>

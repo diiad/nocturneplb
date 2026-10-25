@@ -3,6 +3,7 @@ session_start();
 require_once "includes/global.php";
 require_once "includes/isset_connection.php";
 require_once "includes/bdd.php";
+require_once "includes/only_staff.php";
 
 
 ?>
@@ -79,7 +80,7 @@ require_once "includes/nav.php";
         <div class="col-12 col-md-6 mx-auto my-4">
             <div class="card" style="background-color: rgba(255, 255, 255, 0.1); color: white; padding: 3rem; text-align: center;">
                 <div class="card-body">
-                    <form action="traitements/paiement_verif.php" method="post">
+                    <form action="traitements/paiement_verif" method="post">
                         <?php require_once "includes/if_message.php"; ?>
                         <div class="mb-3 text-start">
                             <label for="search" class="form-label"><strong>Adhérent :</strong></label>

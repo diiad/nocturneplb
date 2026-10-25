@@ -1,0 +1,19 @@
+# Bloquer les fichiers de sauvegarde (ex : edit_user.php.bak-20261025)
+<FilesMatch "\.bak">
+    Require all denied
+</FilesMatch>
+
+RewriteEngine On
+
+# /index.php -> /
+RewriteCond %{THE_REQUEST} ^GET\s/index\.php[\s?] [NC]
+RewriteRule ^ / [R=301,L]
+
+# /page.php -> /page (GET uniquement, pour ne pas casser les formulaires POST)
+RewriteCond %{THE_REQUEST} ^GET\s/([^?\s]+)\.php[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# /page -> page.php (réécriture interne)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+?)/?$ $1.php [L]

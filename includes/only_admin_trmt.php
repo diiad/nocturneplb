@@ -1,6 +1,6 @@
 <?php
-if($_SESSION['role'] == '0'){
-    header('Location: /dashboard.php?error=Accès refusé');
+if($_SESSION['role'] != 1){
+    header('Location: /dashboard?error=Accès refusé');
     exit();
 }
 ?>

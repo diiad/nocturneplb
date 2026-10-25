@@ -6,7 +6,7 @@ require_once "../includes/bdd.php";
 
 
 if (!isset($_SESSION['id'])) {
-    header("Location: ../login.php");
+    header("Location: ../login");
     exit();
 }
 
@@ -16,13 +16,13 @@ $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !checkdnsrr(substr(strrchr($email, "@"), 1), "MX")) {
     $errorString = urlencode("L'adresse email est invalide");
-    header("Location: ../profil_edit.php?error=$errorString");
+    header("Location: ../profil_edit?error=$errorString");
     exit();
 }
 
 if (!empty($phone) && !preg_match('/^(0[6-7])[0-9]{8}$/', $phone)) {
     $errorString = urlencode("Le numéro de téléphone est invalide.");
-    header("Location: ../profil_edit.php?error=$errorString");
+    header("Location: ../profil_edit?error=$errorString");
     exit();
 }
 
@@ -36,6 +36,6 @@ $stmt->execute([
 
 
 $successMessage = urlencode("Profil mis à jour avec succès.");
-header("Location: ../profil.php?success=$successMessage");
+header("Location: ../profil?success=$successMessage");
 exit();
 ?>

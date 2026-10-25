@@ -4,7 +4,7 @@ session_start();
 require_once "includes/global.php";
 require_once "includes/isset_connection.php";
 require_once "includes/bdd.php";
-require_once "includes/only_admin.php";
+require_once "includes/only_staff.php";
 
 // Récupérer l'ID de la saison active
 if (isset($_GET['saison'])) {
@@ -94,6 +94,36 @@ $total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
             margin-right: 0.4em;
         }
 
+        /* annule les styles globaux de ul dans css/nav.css */
+        ul.pagination {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.25rem;
+            background: transparent;
+            width: auto;
+        }
+        .pagination .page-link {
+            background-color: #ffffff20;
+            color: white;
+            border-color: #ffffff40;
+            font-size: 1rem;
+        }
+        .pagination .page-link:hover {
+            background-color: #ffffff40;
+            color: white;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: white;
+            color: black;
+            border-color: white;
+        }
+        .pagination .page-item.disabled .page-link {
+            background-color: transparent;
+            color: #ffffff60;
+            border-color: #ffffff20;
+        }
+
     </style>
 </head>
 <body>
@@ -150,11 +180,15 @@ $total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
                             <?= htmlspecialchars($u['mail']) ?><br>
                             Il reste : <?= number_format($u['reste_a_payer'], 2, ',', ' ') ?> €
                         </p>
-                        <a href="edit_user.php?id=<?= urlencode($u['id']) ?>" class="btn btn-outline-light btn-sm mt-3">✏️ Modifier</a>
+                        <a href="edit_user?id=<?= urlencode($u['id']) ?>" class="btn btn-outline-light btn-sm mt-3"><?= $_SESSION['role'] == 1 ? '✏️ Modifier' : '💸 Ajouter un paiement' ?></a>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
+    </div>
+
+    <div class="mt-4" role="navigation" aria-label="Pagination des utilisateurs">
+        <ul id="pagination" class="pagination justify-content-center flex-wrap"></ul>
     </div>
 
 </div>
@@ -162,10 +196,15 @@ $total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const cards = document.querySelectorAll(".card");
+        const cards = document.querySelectorAll(".card:not(.user-card)");
         cards.forEach((card, i) => {
             setTimeout(() => card.classList.add("show"), 30 * i);
         });
+
+        const PER_PAGE = 20;
+        let currentPage = 1;
+        let matchedCols = [];
+        const pagination = document.getElementById('pagination');
 
         const searchInput = document.getElementById('searchInput');
         const statusFilter = document.getElementById('statusFilter');
@@ -190,7 +229,7 @@ $total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
             const maxResteRaw = amountFilter ? amountFilter.value : '';
             const maxReste = maxResteRaw !== '' ? Number(maxResteRaw) : null;
 
-            let shown = 0;
+            matchedCols = [];
 
             userCards.forEach((card) => {
                 const name = normalize(card.dataset.name);
@@ -214,11 +253,66 @@ $total = (int) $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
                 }
 
                 const ok = matchQ && matchStatus && matchAmount;
-                card.closest('.col-12')?.classList.toggle('d-none', !ok);
-                if (ok) shown++;
+                if (ok) matchedCols.push(card.closest('.col-12'));
             });
 
-            if (visibleCount) visibleCount.textContent = String(shown);
+            if (visibleCount) visibleCount.textContent = String(matchedCols.length);
+            currentPage = 1;
+            renderPage();
+        }
+
+        function renderPage() {
+            const totalPages = Math.max(1, Math.ceil(matchedCols.length / PER_PAGE));
+            currentPage = Math.min(Math.max(1, currentPage), totalPages);
+            const start = (currentPage - 1) * PER_PAGE;
+            const pageCols = new Set(matchedCols.slice(start, start + PER_PAGE));
+
+            userCards.forEach((card) => {
+                const col = card.closest('.col-12');
+                col.classList.toggle('d-none', !pageCols.has(col));
+                card.classList.remove('show');
+            });
+            Array.from(pageCols).forEach((col, i) => {
+                const card = col.querySelector('.user-card');
+                setTimeout(() => card.classList.add('show'), 30 * i);
+            });
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            pagination.innerHTML = '';
+            if (totalPages <= 1) return;
+
+            function addItem(label, page, disabled, active) {
+                const li = document.createElement('li');
+                li.className = 'page-item' + (disabled ? ' disabled' : '') + (active ? ' active' : '');
+                const a = document.createElement('a');
+                a.className = 'page-link';
+                a.href = '#';
+                a.textContent = label;
+                if (!disabled && !active) {
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        currentPage = page;
+                        renderPage();
+                        document.querySelector('.row.mt-5').scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+                li.appendChild(a);
+                pagination.appendChild(li);
+            }
+
+            addItem('«', currentPage - 1, currentPage === 1, false);
+            let last = 0;
+            for (let p = 1; p <= totalPages; p++) {
+                if (p === 1 || p === totalPages || Math.abs(p - currentPage) <= 2) {
+                    if (p - last > 1) addItem('…', 0, true, false);
+                    addItem(String(p), p, false, p === currentPage);
+                    last = p;
+                }
+            }
+            addItem('»', currentPage + 1, currentPage === totalPages, false);
         }
 
         if (searchInput) {

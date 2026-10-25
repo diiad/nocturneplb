@@ -26,7 +26,7 @@ if (
     $stmt = $pdo->prepare("INSERT INTO saison (annee_debut, annee_fin, prix, active) VALUES (?, ?, ?, ?)");
     $stmt->execute([$annee_debut, $annee_fin, $prix, $active]);
 
-    header('Location: ../stats.php');
+    header('Location: ../stats');
     exit();
 } else {
     echo "Tous les champs obligatoires ne sont pas remplis.";

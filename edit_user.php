@@ -3,9 +3,10 @@ session_start();
 require_once "includes/global.php";
 require_once "includes/isset_connection.php";
 require_once "includes/bdd.php";
-require_once "includes/only_admin.php";
+require_once "includes/only_staff.php";
+$isAdmin = $_SESSION['role'] == 1;
 
-$stmt = $pdo->prepare("SELECT id, nom, prenom, email, phone, commentaire, instagram FROM user WHERE id = :id");
+$stmt = $pdo->prepare("SELECT id, nom, prenom, email, phone, commentaire, instagram, role FROM user WHERE id = :id");
 $stmt->execute(['id' => $_GET['id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -74,14 +75,19 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <body>
 <?php require_once "includes/nav.php"; ?>
 <div class="container my-5">
+    <?php if ($isAdmin): ?>
     <h1 style="margin: auto; width: 100%;">Éditer le profil</h1>
+    <?php else: ?>
+    <h1 style="margin: auto; width: 100%;"><?= htmlspecialchars(ucfirst(strtolower($user['prenom'])) . ' ' . strtoupper($user['nom'])) ?></h1>
+    <?php endif; ?>
     <div class="row mt-5">
+        <?php if ($isAdmin): ?>
 
         <div class="col-12 col-md-6 mx-auto my-2">
             <div class="card" style="background-color: rgba(255, 255, 255, 0.1); color: white; padding: 3rem; text-align: center;">
                 <div class="card-body">
                     <?php require_once 'includes/if_message.php'; ?>
-                    <form action="traitements/update_user.php" method="post">
+                    <form action="traitements/update_user" method="post">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($_GET['id']) ?>">
                         <div class="mb-3 text-start">
                             <label for="prenom" class="form-label"><strong>Prénom :</strong></label>
@@ -123,11 +129,33 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
+        <h1 class="mt-5">Rôle</h1>
+        <div class="col-12 col-md-6 mx-auto my-4">
+            <div class="card" style="background-color: rgba(255, 255, 255, 0.1); color: white; padding: 3rem; text-align: center;">
+                <div class="card-body">
+                    <form action="traitements/update_role" method="post">
+                        <input type="hidden" name="id" value="<?= htmlspecialchars($_GET['id']) ?>">
+                        <div class="mb-3 text-start">
+                            <label for="role" class="form-label"><strong>Rôle :</strong></label>
+                            <select name="role" id="role" class="form-select form-select-lg" required>
+                                <option value="0" <?= (int) $user['role'] === 0 ? 'selected' : '' ?>>Adhérent</option>
+                                <option value="2" <?= (int) $user['role'] === 2 ? 'selected' : '' ?>>Gestionnaire</option>
+                                <option value="1" <?= (int) $user['role'] === 1 ? 'selected' : '' ?>>Administrateur</option>
+                            </select>
+                        </div>
+                        <div class="mt-4 d-flex flex-column gap-3">
+                            <button type="submit" class="custom-btn w-100" onclick="return confirm('Confirmer le changement de rôle ?');">Changer le rôle</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
         <h1 class="mt-5">Ajouter un paiement</h1>
         <div class="col-12 col-md-6 mx-auto my-4">
             <div class="card" style="background-color: rgba(255, 255, 255, 0.1); color: white; padding: 3rem; text-align: center;">
                 <div class="card-body">
-                    <form action="traitements/paiement_verif.php" method="post">
+                    <form action="traitements/paiement_verif" method="post">
                         <?php require_once "includes/if_message.php"; ?>
                         <div class="mb-3 text-start">
                             <label for="search" class="form-label"><strong>Adhérent :</strong></label>
@@ -152,11 +180,13 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                         <div class="mt-4 d-flex flex-column gap-3">
                             <button type="submit" class="custom-btn w-100" style="padding: 1.5rem;">Enregistrer</button>
 
-                            <a href="show_paiement.php?user_id=<?= urlencode($user['id']) ?>"
+                            <?php if ($isAdmin): ?>
+                            <a href="show_paiement?user_id=<?= urlencode($user['id']) ?>"
                                class="custom-btn w-100"
                                style="padding: 1.5rem; text-align: center;">
                                 Voir tous les paiements
                             </a>
+                            <?php endif; ?>
                         </div>
                     </form>
                 </div>

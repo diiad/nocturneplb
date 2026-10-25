@@ -89,8 +89,8 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                     <p><strong>Email :</strong><br><?= htmlspecialchars($user['email']) ?></p>
                     <p><strong>Téléphone :</strong><br><?= htmlspecialchars($user['phone']) ?></p>
                     <div class="mt-4 d-grid gap-3" style="grid-template-columns: 1fr;">
-                        <a href="profil_edit.php" class="custom-btn">Éditer le profil</a>
-                        <a href="traitements/deconnexion.php" class="custom-btn logout">Se déconnecter</a>
+                        <a href="profil_edit" class="custom-btn">Éditer le profil</a>
+                        <a href="traitements/deconnexion" class="custom-btn logout">Se déconnecter</a>
                     </div>
                 </div>
             </div>

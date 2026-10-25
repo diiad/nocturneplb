@@ -2,7 +2,7 @@
 session_start();
 require_once "includes/global.php";
 if(isset($_SESSION["email"]) || isset($_SESSION["pseudo"])){
-header("Location: dashboard.php");
+header("Location: dashboard");
 exit();
 }
 ?>
@@ -140,7 +140,7 @@ exit();
 
 
 
-    <form action="traitements/login_verif.php" method="POST">
+    <form action="traitements/login_verif" method="POST">
         <div class="form-group">
             <label for="email">Email :</label>
             <input type="email" name="email" id="email" placeholder="Email"
@@ -150,8 +150,7 @@ exit();
             <input type="password" name="password" id="password" placeholder="Mot de passe" >
             <div class="Basdepage py-3">
                 <button class="btn-login mb-2" type="submit">Se connecter</button>
-                <a href="password_forgot.php">Mot de passe oublié ?</a>
-                <a href="signup.php" class="text-light">S'inscrire ici</a>
+                <a href="signup" class="text-light">S'inscrire ici</a>
             </div>
         </div>
 </div>

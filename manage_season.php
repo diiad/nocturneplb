@@ -145,7 +145,7 @@ require_once "includes/only_admin.php";
                     <?php if ($selectedId && $saisonInfo): ?>
                         <a href="#" class="custom-btn">Sauvegarder</a>
                         </form>
-                        <a href="traitements/delete_season.php?id=<?= $_GET['saison'] ?>" class="custom-btn logout">Supprimer la saison</a>
+                        <a href="traitements/delete_season?id=<?= $_GET['saison'] ?>" class="custom-btn logout">Supprimer la saison</a>
                     <?php endif; ?>
 
 

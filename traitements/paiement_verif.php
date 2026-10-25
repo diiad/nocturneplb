@@ -2,6 +2,7 @@
 session_start();
 require_once "../includes/isset_connection.php";
 require_once "../includes/bdd.php";
+require_once "../includes/only_staff_trmt.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -10,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $saison_id = intval($_POST['saison_id'] ?? 0);
 
     if (empty($search) || $montant <= 0 || $saison_id <= 0) {
-        header("Location: ../paiement.php?error=Tous les champs sont obligatoires");
+        header("Location: ../paiement?error=Tous les champs sont obligatoires");
         exit;
     }
 
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$user) {
 
-        header("Location: ../paiement.php?error=Utilisateur non trouvé");
+        header("Location: ../paiement?error=Utilisateur non trouvé");
         exit;
     }
 
@@ -34,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     if ($success) {
-        header("Location: ../paiement.php?success=Paiement ajouté avec succès");
+        header("Location: ../paiement?success=Paiement ajouté avec succès");
     } else {
 
-        header("Location: ../paiement.php?error=Erreur lors de l'enregistrement.");
+        header("Location: ../paiement?error=Erreur lors de l'enregistrement.");
     }
     exit;
 } else {
-    header("Location: ../paiement.php");
+    header("Location: ../paiement");
     exit;
 }
