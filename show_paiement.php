@@ -203,7 +203,7 @@ $paiements = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="card h-100 position-relative" style="background-color: rgba(255,255,255,0.1); color:white; padding:2rem;">
 
                         <form method="POST"
-                              action="delete_paiement.php"
+                              action="delete_paiement"
                               onsubmit="return confirm('Confirmer la suppression de ce paiement ?');"
                               style="position:absolute; top:1rem; right:1rem;">
 
@@ -224,7 +224,7 @@ $paiements = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <div class="mt-4">
-        <a href="edit_user.php?id=<?= $user['id'] ?>" class="custom-btn">Retour au profil</a>
+        <a href="edit_user?id=<?= $user['id'] ?>" class="custom-btn">Retour au profil</a>
     </div>
 
 </div>

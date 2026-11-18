@@ -6,7 +6,7 @@ require_once "../includes/bdd.php";
 require_once "../includes/only_admin_trmt.php";
 
 if (!isset($_POST['id']) || empty($_POST['id'])) {
-    header("Location: ../users.php?error=Utilisateur introuvable.");
+    header("Location: ../users?error=Utilisateur introuvable.");
     exit();
 }
 
@@ -26,28 +26,28 @@ if (substr($instagram, 0, 1) === '@') {
 // Validation
 
 if (empty($nom) || empty($prenom) || empty($email)) {
-    header("Location: ../edit_user.php?id=$id&error=Tous les champs sont obligatoires.");
+    header("Location: ../edit_user?id=$id&error=Tous les champs sont obligatoires.");
     exit();
 }
 
 if (!preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'-]+$/u", $nom) || !preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'-]+$/u", $prenom)) {
-    header("Location: ../edit_user.php?id=$id&error=Nom ou prénom invalide (caractères interdits).");
+    header("Location: ../edit_user?id=$id&error=Nom ou prénom invalide (caractères interdits).");
     exit();
 }
 
 if (mb_strlen($nom, 'UTF-8') < 2 || mb_strlen($nom, 'UTF-8') > 50 ||
     mb_strlen($prenom, 'UTF-8') < 2 || mb_strlen($prenom, 'UTF-8') > 50) {
-    header("Location: ../edit_user.php?id=$id&error=Nom/Prénom doivent faire entre 2 et 50 caractères.");
+    header("Location: ../edit_user?id=$id&error=Nom/Prénom doivent faire entre 2 et 50 caractères.");
     exit();
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: ../edit_user.php?id=$id&error=Email invalide.");
+    header("Location: ../edit_user?id=$id&error=Email invalide.");
     exit();
 }
 
 if (!preg_match('/^0[67][0-9]{8}$/', $phone)) {
-    header("Location: ../edit_user.php?id=$id&error=Numéro de téléphone invalide.");
+    header("Location: ../edit_user?id=$id&error=Numéro de téléphone invalide.");
     exit();
 }
 
@@ -55,7 +55,7 @@ if (
     filter_var($instagram, FILTER_VALIDATE_EMAIL) ||
     !preg_match('/^(?=.*[A-Za-z])(?!.*\.\.)(?!.*\.$)(?!^\.)[A-Za-z0-9._]{1,30}$/', $instagram)
 ) {
-    header("Location: ../edit_user.php?id=$id&error=Identifiant Instagram invalide (lettres, chiffres, ., _ seulement).");
+    header("Location: ../edit_user?id=$id&error=Identifiant Instagram invalide (lettres, chiffres, ., _ seulement).");
     exit();
 }
 
@@ -64,9 +64,9 @@ $stmt = $pdo->prepare("UPDATE user SET nom = ?, prenom = ?, email = ?, phone = ?
 $ok = $stmt->execute([$nom, $prenom, $email, $phone, $instagram, $commentaire, $id]);
 
 if ($ok) {
-    header("Location: ../edit_user.php?id=$id&success=Utilisateur mis à jour avec succès.");
+    header("Location: ../edit_user?id=$id&success=Utilisateur mis à jour avec succès.");
     exit();
 } else {
-    header("Location: ../edit_user.php?id=$id&error=Erreur lors de la mise à jour.");
+    header("Location: ../edit_user?id=$id&error=Erreur lors de la mise à jour.");
     exit();
 }

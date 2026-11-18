@@ -4,13 +4,13 @@ require_once "../includes/global.php";
 require_once "../includes/bdd.php";
 
 if (isset($_SESSION['email'])) {
-    header("Location: ../dashboard.php");
+    header("Location: ../dashboard");
     exit();
 }
 
 
 if (!isset($_POST['email'], $_POST['password'])) {
-    header('Location: ../login.php?error=veuillez remplir le formulaire');
+    header('Location: ../login?error=veuillez remplir le formulaire');
     exit();
 }
 
@@ -18,7 +18,7 @@ $email = trim($_POST['email']);
 $password = $_POST['password'];
 
 if (empty($email) || empty($password)) {
-    header('Location: ../login.php?error=veuillez remplir tous les champs.');
+    header('Location: ../login?error=veuillez remplir tous les champs.');
     exit();
 }
 
@@ -35,14 +35,14 @@ if ($user && isset($user['password'])) {
         $_SESSION['prenom'] = $user['prenom'];
         $_SESSION['phone'] = $user['phone'];
         $_SESSION['role'] = $user['role'];
-        header('Location: ../dashboard.php');
+        header('Location: ../dashboard');
         exit();
     } else {
-        header('Location: ../login.php?error=Mot de passe incorrect');
+        header('Location: ../login?error=Mot de passe incorrect');
         exit();
     }
 } else {
-    header('Location: ../login.php?error=utilisateur introuvable');
+    header('Location: ../login?error=utilisateur introuvable');
     exit();
 }
 ?>

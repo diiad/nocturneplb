@@ -28,5 +28,5 @@ $stmt = $pdo->prepare('DELETE FROM paiement WHERE id = ?');
 $stmt->execute([$paiementId]);
 
 // Redirection vers la liste des paiements du même utilisateur
-header('Location: show_paiement.php?user_id=' . $userId);
+header('Location: show_paiement?user_id=' . $userId);
 exit;

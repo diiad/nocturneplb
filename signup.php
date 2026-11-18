@@ -2,7 +2,7 @@
 session_start();
 require_once "includes/global.php";
 if(isset($_SESSION["email"])){
-    header("Location: dashboard.php");
+    header("Location: dashboard");
     exit();
 }
 ?>
@@ -116,7 +116,7 @@ if(isset($_SESSION["email"])){
     <div class="formulaire main">
         <?php require_once 'includes/if_message.php'?>
         <h1>S'inscrire</h1>
-        <form action="traitements/signup_verif.php" id="signupForm" method="POST">
+        <form action="traitements/signup_verif" id="signupForm" method="POST">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" name="nom" id="nom" placeholder="Nom" required value="<?= isset($_COOKIE['form_nom']) ? htmlspecialchars($_COOKIE['form_nom']) : '' ?>">
@@ -143,7 +143,7 @@ if(isset($_SESSION["email"])){
 
                 <div class="Basdepage py-3">
                     <button class="btn-signup mb-2" type="submit">S'inscrire</button>
-                    <a href="login.php" class="text-light">Déjà un compte ? Se connecter</a>
+                    <a href="login" class="text-light">Déjà un compte ? Se connecter</a>
                 </div>
             </div>
         </form>

@@ -185,7 +185,7 @@ $montantrecuperable = $prix - $montantCollecte;
                     <div class="card-body">
                         <?php
                         echo '<p class="card-text"> <img class="emoji-inline" src="img/money-with-wings_1f4b8.png">Il y a <span class="animated-number" data-target="' . htmlspecialchars($montantrecuperable, ENT_QUOTES, 'UTF-8') . '">0</span> € potentiels à récupérer.</p>';
-                        echo '<a href="missing_payment.php?saison=' . urlencode($saisonId) . '" class="text-white">Voir les paiements manquants</a>';
+                        echo '<a href="missing_payment?saison=' . urlencode($saisonId) . '" class="text-white">Voir les paiements manquants</a>';
                         ?>
                     </div>
                 </div>
@@ -195,7 +195,7 @@ $montantrecuperable = $prix - $montantCollecte;
             <div class="card h-100 d-flex flex-column justify-content-center" style="background-color: rgba(255, 255, 255, 0.1); color: white; padding: 4rem; text-align: center; font-size: 1rem">
                 <div class="card-body">
                     <p class="card-text">Créer une nouvelle saison :</p>
-                    <form action="traitements/add_saison.php" method="post">
+                    <form action="traitements/add_saison" method="post">
                         <div class="mb-3">
                             <label for="annee_debut" class="form-label">Année de début</label>
                             <input type="text" class="form-control" id="annee_debut" name="annee_debut" maxlength="4" required>
@@ -216,7 +216,7 @@ $montantrecuperable = $prix - $montantCollecte;
                         </div>
                         <button type="submit" class="custom-btn">Créer la saison</button>
                     </form>
-                    <a href="manage_season.php?saison=<?= urlencode($saisonId) ?>" class="custom-btn mt-4 w-100 manage">Gérer les saisons</a>
+                    <a href="manage_season?saison=<?= urlencode($saisonId) ?>" class="custom-btn mt-4 w-100 manage">Gérer les saisons</a>
                 </div>
             </div>
         </div>

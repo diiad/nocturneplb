@@ -24,7 +24,7 @@ if (empty($nom) || empty($prenom) || empty($phone) || empty($email) || empty($pa
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Tous les champs sont obligatoires.");
+    header("Location: ../signup?error=Tous les champs sont obligatoires.");
     exit();
 }
 
@@ -38,7 +38,7 @@ if (
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Identifiant Instagram invalide.");
+    header("Location: ../signup?error=Identifiant Instagram invalide.");
     exit();
 }
 
@@ -48,7 +48,7 @@ if (!preg_match("/^[a-zA-ZÀ-ÖØ-öø-ÿ\s'-]+$/u", $nom) || !preg_match("/^[a-
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Nom ou prénom invalide (caractères interdits).");
+    header("Location: ../signup?error=Nom ou prénom invalide (caractères interdits).");
     exit();
 }
 
@@ -59,7 +59,7 @@ if (mb_strlen($nom, 'UTF-8') < 2 || mb_strlen($nom, 'UTF-8') > 50 ||
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Nom/Prénom doivent faire entre 2 et 50 caractères.");
+    header("Location: ../signup?error=Nom/Prénom doivent faire entre 2 et 50 caractères.");
     exit();
 }
 
@@ -69,7 +69,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Email invalide.");
+    header("Location: ../signup?error=Email invalide.");
     exit();
 }
 
@@ -79,7 +79,7 @@ if (!preg_match('/^0[67][0-9]{8}$/', $phone)) {
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Numéro de téléphone invalide.");
+    header("Location: ../signup?error=Numéro de téléphone invalide.");
     exit();
 }
 
@@ -92,7 +92,7 @@ if ($check->rowCount() > 0) {
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Un compte avec cet email existe déjà.");
+    header("Location: ../signup?error=Un compte avec cet email existe déjà.");
     exit();
 }
 
@@ -105,7 +105,7 @@ if ($check->rowCount() > 0) {
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Un compte avec ce numéro de téléphone existe déjà.");
+    header("Location: ../signup?error=Un compte avec ce numéro de téléphone existe déjà.");
     exit();
 }
 
@@ -118,7 +118,7 @@ if ($check->rowCount() > 0) {
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Un compte avec cet identifiant Instagram existe déjà.");
+    header("Location: ../signup?error=Un compte avec cet identifiant Instagram existe déjà.");
     exit();
 }
 
@@ -132,7 +132,7 @@ if (mb_strlen($password, 'UTF-8') < 8 ||
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
     setcookie("form_insta", $instagram, time() + 60, "/");
-    header("Location: ../signup.php?error=Mot de passe trop faible (8 caractères minimum, avec majuscule, minuscule et chiffre).");
+    header("Location: ../signup?error=Mot de passe trop faible (8 caractères minimum, avec majuscule, minuscule et chiffre).");
     exit();
 }
 
@@ -153,14 +153,14 @@ try {
 }
 
 if ($ok) {
-    header("Location: ../login.php?success=Inscription réussie, veuillez vous connecter.");
+    header("Location: ../login?success=Inscription réussie, veuillez vous connecter.");
     exit();
 } else {
     setcookie("form_nom", $nom, time() + 60, "/");
     setcookie("form_prenom", $prenom, time() + 60, "/");
     setcookie("form_phone", $phone, time() + 60, "/");
     setcookie("form_email", $email, time() + 60, "/");
-    header("Location: ../signup.php?error=Erreur lors de l'inscription.");
+    header("Location: ../signup?error=Erreur lors de l'inscription.");
     exit();
 }
 ?>

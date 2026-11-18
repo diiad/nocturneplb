@@ -1,5 +1,5 @@
 <?php if(!isset($_SESSION['email'])){
-header("Location: login.php?error=Veuillez vous connecter");
+header("Location: /login?error=Veuillez vous connecter");
 exit();
 }
 

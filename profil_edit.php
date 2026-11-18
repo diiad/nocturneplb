@@ -79,7 +79,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="card" style="background-color: rgba(255, 255, 255, 0.1); color: white; padding: 3rem; text-align: center;">
                 <div class="card-body">
                     <?php require_once 'includes/if_message.php'; ?>
-                    <form action="traitements/update_profil.php" method="post">
+                    <form action="traitements/update_profil" method="post">
                         <div class="mb-3 text-start">
                             <label for="prenom" class="form-label"><strong>Prénom :</strong></label>
                             <input type="text" class="form-control" id="prenom" name="prenom" value="<?= htmlspecialchars(ucfirst(strtolower($user['prenom']))) ?>" required readonly>
@@ -98,7 +98,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mt-4 d-grid gap-3" style="grid-template-columns: 1fr 1fr;">
                             <button type="submit" class="custom-btn">Enregistrer</button>
-                            <a href="profil.php" class="custom-btn logout">Retour au profil</a>
+                            <a href="profil" class="custom-btn logout">Retour au profil</a>
                         </div>
                     </form>
                 </div>

@@ -3,7 +3,7 @@ session_start();
 require_once '../includes/bdd.php';
 
 if ($_SESSION['role'] != 1) {
-    header('Location: dashboard.php?error=action non autorisé');
+    header('Location: ../dashboard?error=action non autorisé');
     exit();
 }
 
@@ -24,13 +24,13 @@ if (isset($_GET['id'])) {
             $stmtUpdate->execute();
             $stmtResetOthers->execute();
         }
-        header("Location: ../stats.php?success=La saison a été supprimée avec succès");
+        header("Location: ../stats?success=La saison a été supprimée avec succès");
         exit();
     } else {
-        header( "Location: stats.php?error=Erreur lors de la suppression.");
+        header( "Location: ../stats?error=Erreur lors de la suppression.");
     }
 } else {
-    header(" Location: stats.php?error=ID de saison non fourni.");
+    header("Location: ../stats?error=ID de saison non fourni.");
 }
 
 ?>
